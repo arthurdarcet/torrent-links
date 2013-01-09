@@ -1,12 +1,13 @@
 <?php
 
 $pass = 'secret';
-$base_dir = '/home/media/torrents/';
+$base_dir = '/home/media/torrents/.watch/';
 $dirs = array(
-    'manual' => 'watch',
-    'show'   => '.sb_watch',
-    'movie'  => '.cp_watch'
+    'manual' => 'manual',
+    'show'   => 'show',
+    'movie'  => 'movie'
 );
+
 if(!isset($_REQUEST['p']) || $_REQUEST['p'] != $pass || empty($_REQUEST['url']))
     exit;
 
@@ -20,7 +21,7 @@ else
     $content = file_get_contents($_REQUEST['url']);
 
 $file = fopen($base_dir.$dirs[$_REQUEST['cat']].'/'.md5(time()).'.torrent', 'w');
-if(fwrite($file, $content !== false)
+if(fwrite($file, $content) !== false)
     echo 'ok';
 fclose($file);
 

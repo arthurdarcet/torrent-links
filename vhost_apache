@@ -1,0 +1,39 @@
+LoadModule scgi_module            modules/mod_scgi.so
+SCGIMount /RT_RPC2 127.0.0.1:5000
+
+<VirtualHost *:80>
+    ServerName      torrent.darcet.fr
+    ServerAlias     torrents.darcet.fr
+    Redirect        / https://torrent.darcet.fr/
+</VirtualHost>
+
+<VirtualHost *:443>
+    Include conf/ssl.inc
+    ServerName      torrent.darcet.fr
+    ServerAlias     torrents.darcet.fr
+
+    php_admin_value open_basedir "/etc/webapps/rutorrent/conf/:/usr/share/webapps/rutorrent/php/:/usr/share/webapps/rutorrent/:/home/media/torrents/"
+    DocumentRoot /usr/share/webapps/rutorrent
+    <Directory "/usr/share/webapps/rutorrent">
+        Include passwd/strict.conf
+        Require user amaury
+    </Directory>
+
+    Alias /data /home/media/torrents
+    Alias /done /home/media/torrents/done/manual
+    Alias /up   /home/media/torrents/upload.php
+    <Directory "/home/media/torrents/upload.php">
+        Order allow,deny
+        Allow from all
+    </Directory>
+    <Directory "/home/media/torrents">
+        Options Indexes
+        Include passwd/strict.conf
+        Require user amaury
+    </Directory>
+    
+    AssignUserId media http
+
+    ErrorLog /var/log/httpd/torrent_error.log
+    CustomLog /var/log/httpd/torrent_access.log combined
+</VirtualHost>

@@ -1,0 +1,35 @@
+upload_rate = 1000
+directory = /home/media/torrents/doing
+session = /home/media/torrents/.sessions
+port_range = 51413-51413
+check_hash = yes
+dht = auto
+dht_port = 6880
+encryption = allow_incoming,try_outgoing,enable_retry
+use_udp_trackers = yes
+peer_exchange = yes
+scgi_port = localhost:5000
+log.execute = /home/media/torrents/.rtorrent.log
+
+
+schedule = tied_directory,10,10,start_tied=
+schedule = untied_directory,10,10,close_untied=
+schedule = low_diskspace,5,60,close_low_diskspace=500M
+
+schedule = watch_manual,10,10,"load_start=/home/media/torrents/.watch/manual/*.torrent,d.set_custom1=/home/media/torrents/done/manual,view.set_visible=short"
+schedule = watch_seed,10,10,"load_start=/home/media/torrents/.watch/seed/*.torrent,d.set_custom1=/home/media/torrents/done/seed,view.set_visible=long"
+schedule = watch_sickbeard,10,10,"load_start=/home/media/torrents/.watch/show/*.torrent,d.set_custom1=/home/media/torrents/done/show,view.set_visible=short"
+schedule = watch_couchpotato,10,10,"load_start=/home/media/torrents/.watch/movie/*.torrent,d.set_custom1=/home/media/torrents/done/movie,view.set_visible=short"
+
+system.method.set_key =event.download.finished,move_complete,"d.set_directory=$d.get_custom1= ;execute=mv,-u,$d.get_base_path=,$d.get_custom1="
+
+group.insert_persistent_view = short
+group.insert_persistent_view = long
+
+group.short.ratio.enable=
+group.long.ratio.enable=
+group.short.ratio.min.set=100
+group.short.ratio.max.set=100
+group.long.ratio.min.set=100000
+group.long.ratio.max.set=100000
+
