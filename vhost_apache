@@ -22,15 +22,15 @@ SCGIMount /RT_RPC2 127.0.0.1:5000
     Alias /data /home/media/torrents
     Alias /done /home/media/torrents/done/manual
     Alias /up   /home/media/torrents/upload.php
-    <Directory "/home/media/torrents/upload.php">
-        Order allow,deny
-        Allow from all
-    </Directory>
     <Directory "/home/media/torrents">
         Options Indexes
         Include passwd/strict.conf
         Require user amaury
     </Directory>
+    <Location /up>
+        Order allow,deny
+        Allow from all
+    </Location>
     
     AssignUserId media http
 
