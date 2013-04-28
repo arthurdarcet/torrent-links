@@ -39,7 +39,6 @@ function linkClick() {
             if (s == serv.returnValue) {
                 link.src=successIcon;
             } else {
-                console.log("Request:\n"+JSON.stringify(serv)+"\n\nResponse:\n"+s);
                 link.src=failedIcon;
             }
         }
@@ -76,7 +75,7 @@ function icon(url, cat, src) {
     img.setAttribute('data-cat', cat);
     img.setAttribute('data-url', url);
     img.setAttribute('src', src);
-    img.setAttribute('style', 'height: 18px; border: 0; padding: 0;');
+    img.setAttribute('style', 'height: 16px; border: 0; padding: 0;');
     img.addEventListener('click',linkClick,false);
     return img;
 }
